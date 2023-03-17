@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JSON to CSV</title>
+  </head>
+  <body>
+    <!-- copy the following three blocks (style, div, script) into a WordPress Divi "code" block -->
+    <!-- then, update the import line -->
+
+    <style>
+      #json-to-csv-editor {
+        display: flex;
+        width: 100%;
+        max-width: 1000px;
+        height: 300px;
+      }
+    </style>
+
+    <div id="json-to-csv-editor" class="editor">
+      <span class="loading">Loading editor...</span>
+    </div>
+
+    <script type="module">
+      import { Editor } from './index.js'
+
+      const csv = `name,age,city
+Emily,19,Atlanta
+Kevin,19,Atlanta
+Chris,23,New York
+Michelle,27,Los Angeles
+Sarah,31,New York
+Joe,32,New York
+Robert,45,Manhattan
+`
+
+      const target = document.getElementById('json-to-csv-editor')
+      const editor = new Editor({ target, props: { csv } })
+      const loading = target.querySelector('span.loading')
+      target.removeChild(loading)
+    </script>
+  </body>
+</html>

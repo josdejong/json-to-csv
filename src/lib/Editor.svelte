@@ -151,9 +151,6 @@
         >{'\u25C0'} To CSV</button
       >
       <div class='csv-title csv-center'>JSON</div>
-      <button class='csv-action' on:click={() => fullscreen = !fullscreen} title='Toggle full screen (ESC to exit)'>
-        {fullscreen ? 'Exit full screen (ESC)' : 'Full screen'}
-      </button>
     </div>
     <div bind:this={refJsonEditor} class='csv-editor' />
   </div>

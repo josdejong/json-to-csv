@@ -16,8 +16,10 @@
 
   export let csv: string = ''
   export let json: string = ''
+
   let header = true
   let delimiter = ','
+  let fullscreen = false
 
   $: updateCsvContents(csv)
   $: updateJsonContents(json)
@@ -118,9 +120,15 @@
       })
     }
   }
+
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && fullscreen) {
+      fullscreen = false
+    }
+  }
 </script>
 
-<div class='csv-container'>
+<div class='csv-container' class:fullscreen={fullscreen} on:keydown={handleKeydown}>
   <div class='csv-column'>
     <div class='csv-menu'>
       <div class='csv-title'>CSV</div>
@@ -142,7 +150,10 @@
       <button class='csv-action' on:click={convertToCsv} title="Convert JSON to CSV"
         >{'\u25C0'} To CSV</button
       >
-      <div class='csv-title csv-right'>JSON</div>
+      <div class='csv-title csv-center'>JSON</div>
+      <button class='csv-action' on:click={() => fullscreen = !fullscreen} title='Toggle full screen (ESC to exit)'>
+        {fullscreen ? 'Exit full screen (ESC)' : 'Full screen'}
+      </button>
     </div>
     <div bind:this={refJsonEditor} class='csv-editor' />
   </div>
@@ -160,7 +171,18 @@
     flex: 1;
     display: flex;
     gap: $margin;
-    overflow:hidden;
+    overflow: hidden;
+    background: white;
+
+    &.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+      border: 5px solid white;
+    }
 
     .csv-column {
       flex: 1;
@@ -181,8 +203,8 @@
           flex: 1;
           padding: 5px 10px;
 
-          &.csv-right {
-            text-align: right;
+          &.csv-center {
+            text-align: center;
           }
         }
 
@@ -203,7 +225,7 @@
           border-radius: 3px;
 
           &:hover {
-            background: lighten($button-background-color, 5%);
+            background: lighten($button-background-color, 10%);
           }
         }
       }

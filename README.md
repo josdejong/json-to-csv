@@ -1,6 +1,6 @@
 # JSON to CSV
 
-This is a mini-editor made for the article ["JSON to CSV"](https://jsoneditoronline.org/indepth/convert/json-to-csv/).
+This is a mini-editor made for the article [Convert JSON to CSV using JSON Editor Online](https://jsoneditoronline.org/indepth/convert/json-to-csv/).
 
 ## Develop
 

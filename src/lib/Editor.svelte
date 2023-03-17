@@ -120,10 +120,10 @@
   }
 </script>
 
-<div class="container">
-  <div class="column">
-    <div class="menu">
-      <div class="title">CSV</div>
+<div class='csv-container'>
+  <div class='csv-column'>
+    <div class='csv-menu'>
+      <div class='csv-title'>CSV</div>
       <label title='Check "header" when the CSV data contains a header row'><input type='checkbox' bind:checked={header}>header</label>
       <select title='Delimiter' bind:value={delimiter}>
         <option value=','>comma</option>
@@ -131,20 +131,20 @@
         <option value='\t'>tab</option>
         <option value=' '>space</option>
       </select>
-      <button class="action" on:click={convertToJson} title="Convert CSV to JSON"
+      <button class='csv-action' on:click={convertToJson} title="Convert CSV to JSON"
         >To JSON {'\u25B6'}</button
       >
     </div>
-    <div bind:this={refCsvEditor} class="editor" />
+    <div bind:this={refCsvEditor} class='csv-editor' />
   </div>
-  <div class="column">
-    <div class="menu">
-      <button class="action" on:click={convertToCsv} title="Convert JSON to CSV"
+  <div class='csv-column'>
+    <div class='csv-menu'>
+      <button class='csv-action' on:click={convertToCsv} title="Convert JSON to CSV"
         >{'\u25C0'} To CSV</button
       >
-      <div class="title right">JSON</div>
+      <div class='csv-title csv-right'>JSON</div>
     </div>
-    <div bind:this={refJsonEditor} class="editor" />
+    <div bind:this={refJsonEditor} class='csv-editor' />
   </div>
 </div>
 
@@ -156,19 +156,19 @@
   $font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu;
   $font-size: 11pt;
 
-  .container {
+  .csv-container {
     flex: 1;
     display: flex;
     gap: $margin;
     overflow:hidden;
 
-    .column {
+    .csv-column {
       flex: 1;
       display: flex;
       flex-direction: column;
       overflow:hidden;
 
-      .menu {
+      .csv-menu {
         display: flex;
         background: $menu-background-color;
         font-family: $font-family;
@@ -177,11 +177,11 @@
         align-items: center;
         gap: $margin;
 
-        .title {
+        .csv-title {
           flex: 1;
           padding: 5px 10px;
 
-          &.right {
+          &.csv-right {
             text-align: right;
           }
         }
@@ -192,7 +192,7 @@
           cursor: pointer;
         }
 
-        .action {
+        .csv-action {
           background: $button-background-color;
           color: $color;
           font-family: inherit;
@@ -208,7 +208,7 @@
         }
       }
 
-      .editor {
+      .csv-editor {
         flex: 1;
         display: flex;
         min-height: 0;

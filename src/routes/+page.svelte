@@ -25,10 +25,10 @@
 
 <h1>JSON to CSV converter</h1>
 
-<div bind:this={editorRef} class="editor" />
+<div bind:this={editorRef} class='json-to-csv-editor' />
 
 <style lang="scss">
-  .editor {
+  .json-to-csv-editor {
     width: 100%;
     max-width: 1000px;
     height: 300px;

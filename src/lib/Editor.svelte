@@ -20,9 +20,14 @@
   let header = true
   let delimiter = ','
   let fullscreen = false
+  let showOptions = false
+
+  let editorRef
+  let originalParentRef
 
   $: updateCsvContents(csv)
   $: updateJsonContents(json)
+  $: applyFullscreen(fullscreen)
 
   convertToJson()
 
@@ -127,21 +132,15 @@
     }
   }
 
-  let editorRef
-  let originalParentRef
-  function toggleFullscreen() {
-    if (!editorRef) {
-      return
-    }
-
-    fullscreen = !fullscreen
-
+  function applyFullscreen(fullscreen: boolean) {
     if (fullscreen) {
-      originalParentRef = editorRef.parentNode
-      originalParentRef.removeChild(editorRef)
-      document.body.appendChild(editorRef)
+      if (editorRef) {
+        originalParentRef = editorRef.parentNode
+        originalParentRef.removeChild(editorRef)
+        document.body.appendChild(editorRef)
+      }
     } else {
-      if (originalParentRef) {
+      if (editorRef && originalParentRef) {
         document.body.removeChild(editorRef)
         originalParentRef.appendChild(editorRef)
       }
@@ -149,30 +148,40 @@
   }
 </script>
 
-<div class='csv-container' class:fullscreen={fullscreen} on:keydown={handleKeydown} bind:this={editorRef}>
+<svelte:window on:keydown={handleKeydown} />
+
+<div class='csv-container' class:fullscreen={fullscreen} bind:this={editorRef}>
   <div class='csv-column'>
     <div class='csv-menu'>
+      <button class='csv-menu-button' on:click={() => showOptions = !showOptions} title='Toggle options'>
+        Options
+      </button>
       <div class='csv-title'>CSV</div>
-      <label title='Check "header" when the CSV data contains a header row'><input type='checkbox' bind:checked={header}>header</label>
-      <select title='Delimiter' bind:value={delimiter}>
-        <option value=','>comma</option>
-        <option value=';'>semicolon</option>
-        <option value='\t'>tab</option>
-        <option value=' '>space</option>
-      </select>
-      <button class='csv-action' on:click={convertToJson} title="Convert CSV to JSON"
+      <button class='csv-menu-button' on:click={convertToJson} title="Convert CSV to JSON"
         >To JSON {'\u25B6'}</button
       >
     </div>
+    {#if showOptions}
+      <div class='csv-menu csv-secondary-menu'>
+        <span>Options:</span>
+        <label title='Check "header" when the CSV data contains a header row'><input type='checkbox' bind:checked={header}>header</label>
+        <select title='Delimiter' bind:value={delimiter}>
+          <option value=','>comma</option>
+          <option value=';'>semicolon</option>
+          <option value='\t'>tab</option>
+          <option value=' '>space</option>
+        </select>
+      </div>
+    {/if}
     <div bind:this={refCsvEditor} class='csv-editor' />
   </div>
   <div class='csv-column'>
     <div class='csv-menu'>
-      <button class='csv-action' on:click={convertToCsv} title="Convert JSON to CSV"
+      <button class='csv-menu-button' on:click={convertToCsv} title="Convert JSON to CSV"
         >{'\u25C0'} To CSV</button
       >
-      <div class='csv-title csv-center'>JSON</div>
-      <button class='csv-action' on:click={toggleFullscreen} title='Toggle full screen (ESC to exit)'>
+      <div class='csv-title'>JSON</div>
+      <button class='csv-menu-button' on:click={() => fullscreen = !fullscreen} title='Toggle full screen (ESC to exit)'>
         {fullscreen ? 'Exit full screen (ESC)' : 'Full screen'}
       </button>
     </div>
@@ -201,6 +210,7 @@
       left: 0;
       width: 100%;
       height: 100%;
+      max-width: unset;
       box-sizing: border-box;
       border: 10px solid white;
       z-index: 9999;
@@ -224,10 +234,7 @@
         .csv-title {
           flex: 1;
           padding: 5px 10px;
-
-          &.csv-center {
-            text-align: center;
-          }
+          text-align: center;
         }
 
         label,
@@ -236,19 +243,26 @@
           cursor: pointer;
         }
 
-        .csv-action {
+        > * {
+          margin: 5px;
+        }
+
+        .csv-menu-button {
           background: $button-background-color;
           color: $color;
           font-family: inherit;
           font-size: inherit;
           border: none;
           padding: 5px 10px;
-          margin: 5px;
           border-radius: 3px;
 
           &:hover {
             background: lighten($button-background-color, 10%);
           }
+        }
+
+        &.csv-secondary-menu {
+          background: #dfdfdf;
         }
       }
 

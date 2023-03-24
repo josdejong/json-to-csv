@@ -13,7 +13,7 @@ npm run dev
 To build a new version:
 
 ```
-npm run build:bundle
+npm run build
 ```
 
 Then commit and push changes to GitHub to publish.

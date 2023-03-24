@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build && npm run package",
-    "build:bundle": "rollup --config rollup.config.bundle.js",
+    "build": "rollup --config rollup.config.bundle.js",
+    "build:svelte": "vite build && npm run package",
     "lint": "prettier --check --plugin-search-dir=. .",
     "format": "prettier --write --plugin-search-dir=. .",
     "preview": "vite preview",

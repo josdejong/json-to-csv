@@ -3,11 +3,11 @@
   import { EditorState } from '@codemirror/state'
   import { keymap, ViewUpdate } from '@codemirror/view'
   import { json as jsonLang } from '@codemirror/lang-json'
-  import { indentWithTab, defaultKeymap } from '@codemirror/commands'
+  import { defaultKeymap, indentWithTab } from '@codemirror/commands'
   import { lintGutter } from '@codemirror/lint'
-
   import { onMount } from 'svelte'
   import { csv2json, json2csv } from 'csv42'
+  import { disablePageScroll, enablePageScroll } from './pageScroll.js'
 
   let refCsvEditor
   let refJsonEditor
@@ -138,11 +138,13 @@
         originalParentRef = editorRef.parentNode
         originalParentRef.removeChild(editorRef)
         document.body.appendChild(editorRef)
+        disablePageScroll()
       }
     } else {
       if (editorRef && originalParentRef) {
         document.body.removeChild(editorRef)
         originalParentRef.appendChild(editorRef)
+        enablePageScroll()
       }
     }
   }

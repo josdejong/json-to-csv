@@ -170,7 +170,7 @@
         <select title='Delimiter' bind:value={delimiter}>
           <option value=','>comma</option>
           <option value=';'>semicolon</option>
-          <option value='\t'>tab</option>
+          <option value={'\t'}>tab</option>
           <option value=' '>space</option>
         </select>
       </div>

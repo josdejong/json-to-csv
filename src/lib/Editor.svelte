@@ -126,9 +126,30 @@
       fullscreen = false
     }
   }
+
+  let editorRef
+  let originalParentRef
+  function toggleFullscreen() {
+    if (!editorRef) {
+      return
+    }
+
+    fullscreen = !fullscreen
+
+    if (fullscreen) {
+      originalParentRef = editorRef.parentNode
+      originalParentRef.removeChild(editorRef)
+      document.body.appendChild(editorRef)
+    } else {
+      if (originalParentRef) {
+        document.body.removeChild(editorRef)
+        originalParentRef.appendChild(editorRef)
+      }
+    }
+  }
 </script>
 
-<div class='csv-container' class:fullscreen={fullscreen} on:keydown={handleKeydown}>
+<div class='csv-container' class:fullscreen={fullscreen} on:keydown={handleKeydown} bind:this={editorRef}>
   <div class='csv-column'>
     <div class='csv-menu'>
       <div class='csv-title'>CSV</div>
@@ -151,6 +172,9 @@
         >{'\u25C0'} To CSV</button
       >
       <div class='csv-title csv-center'>JSON</div>
+      <button class='csv-action' on:click={toggleFullscreen} title='Toggle full screen (ESC to exit)'>
+        {fullscreen ? 'Exit full screen (ESC)' : 'Full screen'}
+      </button>
     </div>
     <div bind:this={refJsonEditor} class='csv-editor' />
   </div>
@@ -175,10 +199,11 @@
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border: 10px solid white;
       z-index: 9999;
-      border: 5px solid white;
     }
 
     .csv-column {

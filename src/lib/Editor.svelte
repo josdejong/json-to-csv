@@ -95,7 +95,7 @@
   function convertToCsv() {
     try {
       const parsedJson = JSON.parse(json)
-      csv = json2csv(parsedJson)
+      csv = json2csv(parsedJson, { header, delimiter })
     } catch (err) {
       csv = err.toString()
     }

@@ -5,7 +5,7 @@ let prevBodyOverflow: string
 let prevBodyWidth: string
 
 export function disablePageScroll() {
-  scrollY = window.scroll as unknown as number
+  scrollY = window.scrollY
   prevBodyPosition = document.body.style.position
   prevBodyOverflow = document.body.style.overflow
   prevBodyWidth = document.body.style.width
